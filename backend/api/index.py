@@ -1,12 +1,6 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 app = FastAPI()
-
-# تعريف الشكل اللي البيانات جاية بيه من الفرونت إند
-class HouseData(BaseModel):
-    # حط هنا الأقسام اللي جاية من الفرونت أو سيبها فاضية لو بتبعت dict
-    pass
 
 @app.get("/")
 def read_root():
@@ -16,8 +10,9 @@ def read_root():
 def hello_world():
     return {"message": "Hello World"}
 
-# الـ Endpoint المطلوبة للتوقع
+# دعم كلا المسارين بنفس الـ function
 @app.post("/predict")
+@app.post("/api/predict")
 def predict(data: dict):
-    # هنا حط كود التوقع بتاعك، ودلوقتي بيرجع قيمة وهمية عشان تتأكد إن الربط شغال
+    # كود التوقع بتاعك هنا
     return {"prediction": 250000}
