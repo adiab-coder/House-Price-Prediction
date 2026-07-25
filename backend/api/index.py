@@ -3,16 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# 1. إضافة الـ CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # بيسمح لجميع الدومينات
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # بيسمح بـ POST, GET, OPTIONS, إلخ
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 2. معالج يدوي لطلبات الـ OPTIONS (Preflight) عشان Vercel ما يرفضهاش
+# معالجة طلب الـ OPTIONS عشان الـ Preflight CORS ينجح
 @app.options("/{full_path:path}")
 async def options_handler(full_path: str):
     return Response(
@@ -24,12 +23,8 @@ async def options_handler(full_path: str):
         },
     )
 
-@app.get("/")
-def read_root():
-    return {"message": "API is running"}
-
 @app.post("/predict")
 @app.post("/api/predict")
 def predict(data: dict):
-    # كود التوقعات بتاعك هيرجع هنا
+    # كود التوقع بتاعك
     return {"status": "success", "data": data}
