@@ -3,21 +3,21 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# تفعيل الـ CORS لتسمح للفرونت إند يكلم الباك إند
+# 1. إعطاء تصريح كامل للمتصفح إنه يقبل الطلبات من أي مكان
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # أو حط رابط الفرونت إند بتاعك صراحة
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.get("/")
-def read_root():
-    return {"status": "ok"}
+def home():
+    return {"status": "Backend is running fine!"}
 
 @app.post("/predict")
 @app.post("/api/predict")
 def predict(data: dict):
-    # كود التوقع بتاعك
-    return {"status": "success"}
+    # رجع أي رد مؤقت عشان نتأكد إن الاتصال نجح
+    return {"result": "success", "data": data}
