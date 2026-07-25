@@ -1,0 +1,64 @@
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+}
+
+.page {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.prediction-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  gap: 4px;
+}
+
+.prediction-form input,
+.prediction-form select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.prediction-form button {
+  margin-top: 8px;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.prediction-form button:disabled {
+  background: #93b4f0;
+  cursor: not-allowed;
+}
+
+.form-error {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.predicted-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: #16a34a;
+}
