@@ -1,18 +1,23 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# تفعيل الـ CORS لتسمح للفرونت إند يكلم الباك إند
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # أو حط رابط الفرونت إند بتاعك صراحة
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def read_root():
-    return {"message": "House Price Prediction API is running!"}
+    return {"status": "ok"}
 
-@app.get("/api/python")
-def hello_world():
-    return {"message": "Hello World"}
-
-# دعم كلا المسارين بنفس الـ function
 @app.post("/predict")
 @app.post("/api/predict")
 def predict(data: dict):
-    # كود التوقع بتاعك هنا
-    return {"prediction": 250000}
+    # كود التوقع بتاعك
+    return {"status": "success"}
