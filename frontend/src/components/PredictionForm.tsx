@@ -30,34 +30,44 @@ export default function PredictionForm() {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setError(null);
+ async function handleSubmit(e: FormEvent) {
+  e.preventDefault();
+  setError(null);
 
-    if (!form.location) {
-      setError("Please select a location.");
-      return;
-    }
-    if (form.area_sqft <= 0) {
-      setError("Area must be greater than 0.");
-      return;
-    }
-    if (form.bathroom_num < 0 || form.balcony_num < 0 || form.car_parking_num < 0) {
-      setError("Counts cannot be negative.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await predictPrice(form);
-      navigate("/result", { state: { predictedPrice: result.predicted_price } });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  if (!form.location) {
+    setError("Please select a location.");
+    return;
+  }
+  if (form.area_sqft <= 0) {
+    setError("Area must be greater than 0.");
+    return;
+  }
+  if (form.bathroom_num < 0 || form.balcony_num < 0 || form.car_parking_num < 0) {
+    setError("Counts cannot be negative.");
+    return;
   }
 
+  setLoading(true);
+  try {
+    const result = await predictPrice(form);
+    console.log("API Response:", result); // طباعة الرد للتأكد في الـ Console
+
+    // استخراج السعر سواء كان المرجع predicted_price أو price أو القيمة نفسها
+    const priceValue = result.predicted_price ?? (result as any).price ?? result;
+
+    navigate("/result", { 
+      state: { 
+        predictedPrice: priceValue,
+        prediction: priceValue,
+        result: result
+      } 
+    });
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+}
   return (
     <form onSubmit={handleSubmit} className="prediction-form">
       <label>
