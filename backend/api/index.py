@@ -9,3 +9,8 @@ def read_root():
 @app.get("/api/python")
 def hello_world():
     return {"message": "Hello World"}
+
+@app.post("/predict")  # أو /api/predict حسب اللي انت مستخدمه في الفرونت
+def predict(data: HouseData):
+    # كود التوقع بتاعك
+    return {"prediction": result}
