@@ -1,23 +1,35 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# 1. إعطاء تصريح كامل للمتصفح إنه يقبل الطلبات من أي مكان
+# 1. إضافة الـ CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # بيسمح لجميع الدومينات
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # بيسمح بـ POST, GET, OPTIONS, إلخ
     allow_headers=["*"],
 )
 
+# 2. معالج يدوي لطلبات الـ OPTIONS (Preflight) عشان Vercel ما يرفضهاش
+@app.options("/{full_path:path}")
+async def options_handler(full_path: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
+
 @app.get("/")
-def home():
-    return {"status": "Backend is running fine!"}
+def read_root():
+    return {"message": "API is running"}
 
 @app.post("/predict")
 @app.post("/api/predict")
 def predict(data: dict):
-    # رجع أي رد مؤقت عشان نتأكد إن الاتصال نجح
-    return {"result": "success", "data": data}
+    # كود التوقعات بتاعك هيرجع هنا
+    return {"status": "success", "data": data}
