@@ -4,8 +4,7 @@ export default function ResultPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // فحص كل الأحتمالات للـ State
-  const price = location.state?.predictedPrice ?? location.state?.prediction ?? location.state?.result;
+  const price = location.state?.predictedPrice;
 
   if (price === undefined || price === null) {
     return (
@@ -20,8 +19,10 @@ export default function ResultPage() {
     <div className="result-container">
       <h2>Estimated House Price</h2>
       <p className="price-display">
-        {typeof price === "number" 
-          ? `$${price.toLocaleString()}` 
+        {typeof price === "number"
+          ? `${price.toLocaleString()} EGP`
+          : typeof price === "object" && price.predicted_price
+          ? `${Number(price.predicted_price).toLocaleString()} EGP`
           : JSON.stringify(price)}
       </p>
       <button onClick={() => navigate("/")}>Predict Another</button>

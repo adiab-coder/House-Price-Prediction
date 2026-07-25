@@ -26,5 +26,14 @@ async def options_handler(full_path: str):
 @app.post("/predict")
 @app.post("/api/predict")
 def predict(data: dict):
-    # كود التوقع بتاعك
-    return {"status": "success", "data": data}
+    # 1. لو الموديل جاهز عندك، بتعمل الحسابات هنا:
+    # input_features = prepare_features(data)
+    # predicted_val = float(model.predict(input_features)[0])
+    
+    # مؤقتاً للتجربة (أو حط متغير السعر من الموديل بتاعك):
+    predicted_val = 1500000  # ضع هنا نتيجة model.predict()
+
+    return {
+        "status": "success",
+        "predicted_price": predicted_val
+    }
