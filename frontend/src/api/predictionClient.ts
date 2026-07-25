@@ -1,6 +1,7 @@
 import type { PredictionRequest, PredictionResponse } from "../types/prediction";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
+// استخدام رابط الباك إند المباشر على Vercel مع الـ Fallback
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || "https://house-price-prediction-l83b.vercel.app";
 
 export async function predictPrice(
   payload: PredictionRequest
